@@ -1,0 +1,22 @@
+HERO BACKGROUND IMAGE PLACEHOLDER
+
+This directory should contain:
+1. hero-bg-4k.png (3840×2160 PNG)
+2. hero-bg-4k.webp (3840×2160 WebP)
+
+Art Brief:
+- Futuristic SaaS hero-style visual
+- 3D spiral wave geometry forming a dynamic circular tunnel
+- Metallic, glossy reflections
+- Cool gradient: silver, fog white, steel gray, soft cyan-blue
+- Floating glassmorphism cards (foreground)
+- Motion/animation cues (implied)
+- No text, symbols, or UI elements
+
+Generate using:
+- AI image generator (DALL-E, Midjourney, Stable Diffusion)
+- 3D software (Blender, Cinema 4D)
+- Design tools (Figma, Photoshop)
+
+The hero section in app/page.tsx references these files.
+

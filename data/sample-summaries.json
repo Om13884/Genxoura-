@@ -1,0 +1,27 @@
+[
+  {
+    "id": "sample-1",
+    "input": "I've been waiting for my order for over two weeks now. The tracking says it's been delayed multiple times. I'm really frustrated and need this item urgently. Can someone please help me get a refund or expedite the shipping?",
+    "output": {
+      "summary": "Customer inquiry about delayed order (2+ weeks). Multiple shipping delays reported. Customer frustrated and requesting either expedited shipping or refund. Urgent action needed.",
+      "sentiment": "negative"
+    }
+  },
+  {
+    "id": "sample-2",
+    "input": "Just wanted to say thank you for the excellent service! The product arrived exactly as described and the customer support team was very helpful when I had questions. I'll definitely be ordering again.",
+    "output": {
+      "summary": "Positive customer feedback. Product met expectations, customer support was helpful. Customer satisfied and plans to order again.",
+      "sentiment": "positive"
+    }
+  },
+  {
+    "id": "sample-3",
+    "input": "I'm interested in learning more about your enterprise automation solutions. We're looking to automate our email logging and API data collection processes. Could someone from your sales team reach out to discuss pricing and implementation timelines?",
+    "output": {
+      "summary": "Sales inquiry about enterprise automation. Interested in email logging and API data collection automation. Requesting sales contact for pricing and implementation details.",
+      "sentiment": "neutral"
+    }
+  }
+]
+

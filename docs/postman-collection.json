@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "GenXora n8n Webhooks",
+    "description": "Postman collection for testing GenXora n8n webhook endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Contact Form Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"company\": \"Acme Inc.\",\n  \"services\": [\"Email → Google Sheets Logging\"],\n  \"description\": \"I need to automate email logging for my sales team.\",\n  \"timestamp\": \"2024-01-01T00:00:00.000Z\"\n}"
+        },
+        "url": {
+          "raw": "{{N8N_WEBHOOK_BASE}}/webhook/contact",
+          "host": ["{{N8N_WEBHOOK_BASE}}"],
+          "path": ["webhook", "contact"]
+        }
+      }
+    },
+    {
+      "name": "Email Logger Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"customer@example.com\",\n  \"to\": \"support@example.com\",\n  \"subject\": \"Product Inquiry\",\n  \"body\": \"I'm interested in learning more about your product.\",\n  \"timestamp\": \"2024-01-01T00:00:00.000Z\"\n}"
+        },
+        "url": {
+          "raw": "{{N8N_WEBHOOK_BASE}}/webhook/email-logger",
+          "host": ["{{N8N_WEBHOOK_BASE}}"],
+          "path": ["webhook", "email-logger"]
+        }
+      }
+    },
+    {
+      "name": "Form Submission Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"jane@example.com\",\n  \"phone\": \"+1234567890\",\n  \"message\": \"I'd like to schedule a consultation.\",\n  \"formId\": \"contact-form\",\n  \"timestamp\": \"2024-01-01T00:00:00.000Z\"\n}"
+        },
+        "url": {
+          "raw": "{{N8N_WEBHOOK_BASE}}/webhook/form-submission",
+          "host": ["{{N8N_WEBHOOK_BASE}}"],
+          "path": ["webhook", "form-submission"]
+        }
+      }
+    },
+    {
+      "name": "AI Summarizer Webhook",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"text\": \"I've been waiting for my order for over two weeks now. The tracking says it's been delayed multiple times. I'm really frustrated and need this item urgently. Can someone please help me get a refund or expedite the shipping?\",\n  \"options\": {\n    \"maxLength\": 200,\n    \"includeSentiment\": true\n  }\n}"
+        },
+        "url": {
+          "raw": "{{N8N_WEBHOOK_BASE}}/webhook/ai-summarizer",
+          "host": ["{{N8N_WEBHOOK_BASE}}"],
+          "path": ["webhook", "ai-summarizer"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "N8N_WEBHOOK_BASE",
+      "value": "https://your-n8n-instance.com",
+      "type": "string"
+    }
+  ]
+}
+
