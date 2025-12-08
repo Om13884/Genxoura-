@@ -6,12 +6,14 @@ import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { HeroBackground } from "@/components/hero-background"
 
 // Metadata moved to layout or handled via next/head
 
-const projects = [
+export const projects = [
   {
     id: "email-logger",
+    type: "api",
     title: "Email Logger",
     problem:
       "Client needed to automatically capture and log all customer inquiry emails into a structured database for sales team tracking.",
@@ -30,6 +32,7 @@ const projects = [
   },
   {
     id: "api-poller",
+    type: "api",
     title: "API Poller Dashboard",
     problem:
       "Business needed real-time market price data from multiple APIs to track competitor pricing and update internal dashboards.",
@@ -48,6 +51,7 @@ const projects = [
   },
   {
     id: "form-lead-system",
+    type: "web",
     title: "Form Lead System with Email Alert",
     problem:
       "Marketing team needed instant notifications when leads submitted contact forms, plus automatic storage for CRM import.",
@@ -66,6 +70,7 @@ const projects = [
   },
   {
     id: "ai-summarizer",
+    type: "api",
     title: "AI Summarizer Demo",
     problem:
       "Customer support team was overwhelmed by long email threads and needed quick summaries to prioritize responses.",
@@ -88,98 +93,33 @@ const projects = [
 
 export default function ProjectsPage() {
   return (
-    <div className="pt-20 pb-20">
-      {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">Our Projects</h1>
-          <p className="text-lg text-muted-foreground">
-            Real-world automation solutions we've built for clients
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-            >
-              <Card className="h-full">
-                <div className="h-48 bg-muted flex items-center justify-center">
-                  <span className="text-muted-foreground">
-                    Project Screenshot / Architecture Diagram
-                  </span>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-2xl">{project.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <h3 className="font-semibold mb-2">Problem</h3>
-                    <p className="text-sm text-muted-foreground">{project.problem}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Solution</h3>
-                    <p className="text-sm text-muted-foreground">{project.solution}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Outcome</h3>
-                    <p className="text-sm text-muted-foreground">{project.outcome}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Implementation</h3>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      {project.implementation.map((item) => (
-                        <li key={item}>• {item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Architecture</h3>
-                    <p className="text-sm font-mono bg-muted p-2 rounded">
-                      {project.architecture}
-                    </p>
-                  </div>
-                  {project.sampleSummary && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Sample Summary</h3>
-                      <p className="text-sm text-muted-foreground bg-muted p-3 rounded">
-                        {project.sampleSummary}
-                      </p>
-                    </div>
-                  )}
-                  <div className="flex gap-2 pt-4">
-                    <Button variant="outline" size="sm" asChild>
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-4 w-4" />
-                        Code Repo
-                      </a>
-                    </Button>
-                    <Button variant="outline" size="sm" asChild>
-                      <a href="#">
-                        <Play className="mr-2 h-4 w-4" />
-                        Demo Video
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+    <div className="pb-20">
+      <HeroBackground minHeight="min-h-[50vh]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
+              Our Projects
+            </h1>
+            <p className="text-lg text-gray-200 mb-8">
+              Explore two portfolios: Automation/API Projects and Web Development Projects
+            </p>
+            <div className="flex justify-center gap-6 mt-10">
+              <Link href="/projects/api-projects">
+                <Button size="lg" variant="gradient">Automation Projects</Button>
+              </Link>
+              <Link href="/projects/web-projects">
+                <Button size="lg" variant="gradient">Web Development Projects</Button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
-      </section>
+      </HeroBackground>
     </div>
-  )
+  );
 }
 

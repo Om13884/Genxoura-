@@ -22,7 +22,12 @@ export async function sendToN8NWebhook(
     throw new Error("NEXT_PUBLIC_N8N_WEBHOOK_BASE is not configured")
   }
 
-  const url = `${baseUrl}${webhookPath.startsWith("/") ? webhookPath : `/${webhookPath}`}`
+  const trimmedBase = baseUrl.replace(/\/+$/, "")
+  // If the configured base already includes a webhook path (e.g. contains '/webhook'),
+  // assume it's a full webhook URL and use it as-is. Otherwise append the endpoint path.
+  const url = trimmedBase.includes("/webhook")
+    ? trimmedBase
+    : `${trimmedBase}${webhookPath.startsWith("/") ? webhookPath : `/${webhookPath}`}`
 
   const response = await fetch(url, {
     method: "POST",

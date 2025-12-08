@@ -69,7 +69,7 @@ export default function HomePage() {
       "@type": "ContactPoint",
       telephone: "+91-9972734513",
       contactType: "customer service",
-      email: "omkar13884@gmail.com",
+      email: "genxora11@gmail.com",
     },
     sameAs: [
       "https://linkedin.com/company/genxora",
@@ -92,7 +92,7 @@ export default function HomePage() {
           <div
             className="absolute inset-0 bg-cover bg-center opacity-20"
             style={{
-              backgroundImage: "url('/assets/hero-bg-4k.webp')",
+              backgroundImage: "url('/assets/hero-bg-4k.png')",
               transform: "scale(1.1)",
             }}
           />
@@ -306,10 +306,10 @@ export default function HomePage() {
           <p className="text-lg mb-8 opacity-90">
             Book a free 15-min consultation or send an email to{" "}
             <a
-              href="mailto:omkar13884@gmail.com"
+              href="mailto:genxora11@gmail.com"
               className="underline hover:opacity-80"
             >
-              omkar13884@gmail.com
+              genxora11@gmail.com
             </a>
           </p>
           <ContactModal>

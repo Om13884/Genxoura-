@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Mail, Phone, Linkedin, Twitter, Github } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -14,9 +15,13 @@ export function Footer() {
           {/* Column 1: Logo + Tagline */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-brand-electric to-brand-cyan rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">G</span>
-              </div>
+              <Image
+                src="/assets/logo.svg"
+                alt="GenXora Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
               <span className="text-xl font-bold bg-gradient-to-r from-brand-electric to-brand-cyan bg-clip-text text-transparent">
                 GenXora
               </span>
@@ -82,10 +87,10 @@ export function Footer() {
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4" />
                 <a
-                  href="mailto:omkar13884@gmail.com"
+                  href="mailto:genxora11@gmail.com"
                   className="hover:text-primary transition-colors"
                 >
-                  omkar13884@gmail.com
+                  genxora11@gmail.com
                 </a>
               </li>
             </ul>
@@ -156,10 +161,10 @@ export function Footer() {
           <p className="text-sm text-center text-muted-foreground">
             © {currentYear} GenXora. Built with care. Contact: +91 9972734513 |{" "}
             <a
-              href="mailto:omkar13884@gmail.com"
+              href="mailto:genxora11@gmail.com"
               className="hover:text-primary transition-colors"
             >
-              omkar13884@gmail.com
+              genxora11@gmail.com
             </a>
           </p>
         </div>

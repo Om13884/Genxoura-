@@ -31,6 +31,14 @@ export const metadata: Metadata = {
     description:
       "We build websites and automation pipelines that run themselves.",
     siteName: "GenXora",
+    images: [
+      {
+        url: "/assets/logo.svg",
+        width: 200,
+        height: 200,
+        alt: "GenXora Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

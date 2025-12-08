@@ -4,26 +4,31 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { HeroBackground } from "@/components/hero-background"
 
 // Metadata moved to layout or handled via next/head
 
 export default function BlogPage() {
   return (
-    <div className="pt-20 pb-20">
-      {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">Blog</h1>
-          <p className="text-lg text-muted-foreground">
-            Insights on automation, web development, and AI integration
-          </p>
-        </motion.div>
-      </section>
+    <div className="pb-20">
+      {/* Header with Hero Background */}
+      <HeroBackground minHeight="min-h-[50vh]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
+              Blog
+            </h1>
+            <p className="text-lg text-gray-200">
+              Insights on automation, web development, and AI integration
+            </p>
+          </motion.div>
+        </div>
+      </HeroBackground>
 
       {/* Blog Posts Placeholder */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">

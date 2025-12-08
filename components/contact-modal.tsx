@@ -30,6 +30,7 @@ import { useToast } from "@/components/ui/use-toast"
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
+  phone: z.string().regex(/^[\d\s\-\+\(\)]+$/, "Please enter a valid phone number").min(7, "Phone number must be at least 7 characters"),
   company: z.string().optional(),
   services: z.array(z.string()).min(1, "Please select at least one service"),
   description: z.string().min(10, "Please provide more details"),
@@ -61,6 +62,7 @@ export function ContactModal({ children, prefilledService }: ContactModalProps) 
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       company: "",
       services: prefilledService ? [prefilledService] : [],
       description: "",
@@ -70,33 +72,40 @@ export function ContactModal({ children, prefilledService }: ContactModalProps) 
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true)
     try {
-      // Send to n8n webhook
-      const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_BASE || ""
-      
-      if (webhookUrl) {
-        await fetch(`${webhookUrl}/contact`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
+      // Send to Next.js API route (which proxies to n8n - no CORS issues)
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to send message")
       }
 
-      // Also log locally (for development)
+      // Log for development
       console.log("Contact form submission:", data)
 
       toast({
         title: "Message sent!",
-        description: "We'll get back to you within 24 hours.",
+        description: result.warning 
+          ? `${result.message}. ${result.warning}`
+          : "We'll get back to you within 24 hours.",
       })
 
       form.reset()
       setOpen(false)
     } catch (error) {
+      console.error("Contact form error:", error)
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
+        description: error instanceof Error 
+          ? error.message 
+          : "Failed to send message. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -130,6 +139,22 @@ export function ContactModal({ children, prefilledService }: ContactModalProps) 
               )}
             </div>
             <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number *</Label>
+              <Input
+                id="phone"
+                type="tel"
+                {...form.register("phone")}
+                placeholder="+1 (555) 123-4567"
+              />
+              {form.formState.errors.phone && (
+                <p className="text-sm text-destructive">
+                  {form.formState.errors.phone.message}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
@@ -143,14 +168,14 @@ export function ContactModal({ children, prefilledService }: ContactModalProps) 
                 </p>
               )}
             </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="company">Company (optional)</Label>
-            <Input
-              id="company"
-              {...form.register("company")}
-              placeholder="Acme Inc."
-            />
+            <div className="space-y-2">
+              <Label htmlFor="company">Company (optional)</Label>
+              <Input
+                id="company"
+                {...form.register("company")}
+                placeholder="Acme Inc."
+              />
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="services">Services Required *</Label>

@@ -5,27 +5,32 @@ import { motion } from "framer-motion"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ContactForm } from "@/components/contact-form"
+import { HeroBackground } from "@/components/hero-background"
 
 // Metadata moved to layout or handled via next/head
 
 export default function ContactPage() {
   return (
-    <div className="pt-20 pb-20">
-      {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">Contact Us</h1>
-          <p className="text-lg text-muted-foreground">
-            Start your automation today. Book a free 15-min consultation or
-            send an email to omkar13884@gmail.com.
-          </p>
-        </motion.div>
-      </section>
+    <div className="pb-20">
+      {/* Header with Hero Background */}
+      <HeroBackground minHeight="min-h-[50vh]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
+              Contact Us
+            </h1>
+            <p className="text-lg text-gray-200">
+              Start your automation today. Book a free 15-min consultation or
+              send an email to genxora11@gmail.com.
+            </p>
+          </motion.div>
+        </div>
+      </HeroBackground>
 
       {/* Contact Section */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -88,10 +93,10 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold">Email</p>
                     <a
-                      href="mailto:omkar13884@gmail.com"
+                      href="mailto:genxora11@gmail.com"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      omkar13884@gmail.com
+                      genxora11@gmail.com
                     </a>
                   </div>
                 </div>

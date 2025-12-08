@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ContactModal } from "@/components/contact-modal"
+import { HeroBackground } from "@/components/hero-background"
 
 // Metadata moved to layout or handled via next/head
 
@@ -29,7 +30,7 @@ const packages = [
   {
     name: "Advanced",
     tier: "Multi-step + AI",
-    price: "Starting at $699",
+    price: "Starting at $799",
     description: "For complex workflows with multiple integrations and AI",
     features: [
       "Multi-step automation workflow",
@@ -75,22 +76,26 @@ const addOns = [
 
 export default function PricingPage() {
   return (
-    <div className="pt-20 pb-20">
-      {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">Pricing</h1>
-          <p className="text-lg text-muted-foreground">
-            Starter, Advanced, Enterprise — pick the plan that suits your scope.
-            Custom offers available.
-          </p>
-        </motion.div>
-      </section>
+    <div className="pb-20">
+      {/* Header with Hero Background */}
+      <HeroBackground minHeight="min-h-[50vh]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
+              Pricing
+            </h1>
+            <p className="text-lg text-gray-200">
+              Starter, Advanced, Enterprise — pick the plan that suits your scope.
+              Custom offers available.
+            </p>
+          </motion.div>
+        </div>
+      </HeroBackground>
 
       {/* Packages */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">

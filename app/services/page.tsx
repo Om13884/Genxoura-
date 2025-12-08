@@ -6,10 +6,11 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ContactModal } from "@/components/contact-modal"
+import { HeroBackground } from "@/components/hero-background"
 
 // Metadata moved to layout or handled via next/head
 
-const services = [
+export const services = [
   {
     id: "email-sheets",
     title: "Email → Google Sheets Logging",
@@ -158,167 +159,33 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="pt-20 pb-20">
-      {/* Header */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold mb-6">Our Services</h1>
-          <p className="text-lg text-muted-foreground">
-            Complete automation and web development solutions tailored to your
-            business needs
-          </p>
-        </motion.div>
-      </section>
-
-      {/* Services List */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        {services.map((service, index) => (
+    <div className="pb-20">
+      <HeroBackground minHeight="min-h-[50vh]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
-            key={service.id}
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="border-b border-border pb-16 last:border-b-0"
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-1">
-                <service.icon className="h-12 w-12 text-primary mb-4" />
-                <h2 className="text-3xl font-bold mb-4">{service.title}</h2>
-                <p className="text-muted-foreground">{service.overview}</p>
-              </div>
-              <div className="lg:col-span-2 space-y-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">Features</h3>
-                  <ul className="space-y-2">
-                    {service.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                        <span className="text-muted-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">Use Cases</h3>
-                  <ul className="space-y-2">
-                    {service.useCases.map((useCase) => (
-                      <li key={useCase} className="flex items-start gap-2">
-                        <span className="text-primary">•</span>
-                        <span className="text-muted-foreground">{useCase}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="text-sm font-semibold mb-2">Sample Input</h4>
-                    <p className="text-sm text-muted-foreground bg-muted p-3 rounded">
-                      {service.sampleInput}
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-semibold mb-2">Sample Output</h4>
-                    <p className="text-sm text-muted-foreground bg-muted p-3 rounded">
-                      {service.sampleOutput}
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">Technical Notes</h3>
-                  <p className="text-sm text-muted-foreground bg-muted p-4 rounded">
-                    {service.technicalNotes}
-                  </p>
-                </div>
-                <div className="flex gap-4">
-                  <ContactModal prefilledService={service.title}>
-                    <Button variant="gradient">
-                      Request Demo
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </ContactModal>
-                </div>
-                {/* Screenshot Placeholders */}
-                <div className="grid grid-cols-3 gap-4 mt-6">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className="h-32 bg-muted rounded-lg flex items-center justify-center"
-                    >
-                      <span className="text-xs text-muted-foreground">
-                        Screenshot {i}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-white">
+              Our Services
+            </h1>
+            <p className="text-lg text-gray-200 mb-8">
+              Explore Automation/API Services or Web Development Services
+            </p>
+            <div className="flex justify-center gap-6 mt-10">
+              <a href="/services/api-services">
+                <Button size="lg" variant="gradient">Automation/API Services</Button>
+              </a>
+              <a href="/services/web-services">
+                <Button size="lg" variant="gradient">Web Development Services</Button>
+              </a>
             </div>
           </motion.div>
-        ))}
-      </section>
-
-      {/* Integration Notes */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-16 bg-muted/30 rounded-lg">
-        <h2 className="text-2xl font-bold mb-6">Technical Integration Notes</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>n8n Setup</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                All workflows are delivered as JSON files that can be imported
-                directly into n8n. Webhook URLs follow the pattern:
-                <code className="block mt-2 p-2 bg-background rounded">
-                  {process.env.NEXT_PUBLIC_N8N_WEBHOOK_BASE || "https://your-n8n-instance.com"}/webhook/[workflow-id]
-                </code>
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Google Sheets</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Setup requires either a Service Account (for server-side) or
-                OAuth 2.0 (for user-specific sheets). We provide step-by-step
-                instructions and code snippets for both methods.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>OpenRouter / LLM Config</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                AI services use OpenRouter API for model access. Configure via
-                .env: <code>OPENROUTER_API_KEY</code>. Base URL:
-                https://openrouter.ai/api/v1
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>SMTP / Gmail</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Email alerts use SMTP. For Gmail, create an App Password:
-                Settings → Security → 2-Step Verification → App Passwords.
-                Configure host, port, user, and password in .env.
-              </p>
-            </CardContent>
-          </Card>
         </div>
-      </section>
+      </HeroBackground>
     </div>
-  )
+  );
 }
 

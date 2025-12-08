@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -46,9 +47,14 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-brand-electric to-brand-cyan rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">G</span>
-              </div>
+              <Image
+                src="/assets/logo.svg"
+                alt="GenXora Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+                priority
+              />
               <span className="text-xl font-bold bg-gradient-to-r from-brand-electric to-brand-cyan bg-clip-text text-transparent">
                 GenXora
               </span>
