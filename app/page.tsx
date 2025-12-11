@@ -82,7 +82,7 @@ export default function HomePage() {
   // import projects data dynamically from the local projects data file
   // keep a simple selection of 3 automation + 1 web project
   // Note: the projectsData file is located at app/projects/projects-data.ts
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line
   const { projectsData } = require("./projects/projects-data") as { projectsData: any[] }
   const featured = projectsData.filter((p) => featuredIds.includes(p.id))
   const jsonLd = {
