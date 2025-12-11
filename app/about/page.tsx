@@ -127,7 +127,7 @@ export default function AboutPage() {
               <div className="mt-4 flex gap-4 text-sm text-muted-foreground">
                 <span>Email: genxora11@gmail.com</span>
                 <span>•</span>
-                <span>Phone: +91 9972734513</span>
+                
               </div>
             </CardContent>
           </Card>

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, CheckCircle2, Zap, BarChart3, Mail } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -10,33 +11,48 @@ import { ContactModal } from "@/components/contact-modal"
 
 const services = [
   {
-    title: "Email → Google Sheets Logging",
-    description: "Automatically capture and log emails into a structured sheet.",
+    title: "Email automation",
+    description: "Automate incoming emails: parse, route, and log leads.",
     icon: Mail,
   },
   {
-    title: "API Polling → Sheets",
-    description: "Fetch live data and build lightweight dashboards.",
+    title: "WhatsApp automation",
+    description: "Automated messaging for notifications and follow-ups.",
     icon: BarChart3,
   },
   {
-    title: "Form → Sheet → Email Alert",
-    description: "Capture leads, store them, and notify instantly.",
+    title: "CRM setup",
+    description: "Configure customer relationship systems for your team.",
     icon: Zap,
   },
   {
-    title: "AI Summarization",
-    description: "Convert long text into concise insights with sentiment flags.",
+    title: "Customer feedback form",
+    description: "Collect, analyze, and act on customer insights.",
     icon: Zap,
   },
   {
-    title: "Website Development",
-    description: "End-to-end modern websites with CMS and SEO.",
+    title: "Invoice automation",
+    description: "Automate billing and invoice workflows.",
     icon: Zap,
   },
   {
-    title: "Portfolio Creation",
-    description: "Developer portfolios that convert — resume to site.",
+    title: "Landing page + funnel",
+    description: "Capture visitors and run conversion funnels.",
+    icon: Zap,
+  },
+  {
+    title: "Custom n8n workflows",
+    description: "Bespoke automation tailored to your needs.",
+    icon: Zap,
+  },
+  {
+    title: "Website development",
+    description: "Modern, responsive websites with CMS and SEO.",
+    icon: Zap,
+  },
+  {
+    title: "Portfolio creation",
+    description: "Developer portfolios that convert and impress.",
     icon: Zap,
   },
 ]
@@ -57,6 +73,18 @@ const steps = [
 ]
 
 export default function HomePage() {
+  const featuredIds = [
+    "email-logger",
+    "api-poller",
+    "ai-summarizer",
+    "website-1",
+  ]
+  // import projects data dynamically from the local projects data file
+  // keep a simple selection of 3 automation + 1 web project
+  // Note: the projectsData file is located at app/projects/projects-data.ts
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { projectsData } = require("./projects/projects-data") as { projectsData: any[] }
+  const featured = projectsData.filter((p) => featuredIds.includes(p.id))
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -267,22 +295,28 @@ export default function HomePage() {
             </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
+            {featured.map((project, idx) => (
               <motion.div
-                key={i}
+                key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
               >
                 <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="h-48 bg-muted flex items-center justify-center">
-                    <span className="text-muted-foreground">Project Screenshot {i}</span>
+                  <div className="relative h-48 bg-muted overflow-hidden">
+                    {project.image ? (
+                      <Image src={project.image} alt={project.title} fill className="object-cover" />
+                    ) : (
+                      <div className="h-48 flex items-center justify-center">
+                        <span className="text-muted-foreground">No image</span>
+                      </div>
+                    )}
                   </div>
                   <CardHeader>
-                    <CardTitle>Project {i}</CardTitle>
-                    <CardDescription>
-                      Brief description of the automation solution
+                    <CardTitle>{project.title}</CardTitle>
+                    <CardDescription className="truncate max-w-full">
+                      {project.problem ?? project.solution ?? project.implementation?.[0]}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>

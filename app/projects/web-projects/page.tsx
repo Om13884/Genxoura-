@@ -1,12 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Github, Play } from "lucide-react";
 import { HeroBackground } from "@/components/hero-background";
-import { projects } from "../page";
+import { projectsData } from "../projects-data";
 
-const webProjects = projects.filter((p) => p.type === "web");
+const webProjects = projectsData.filter((p) => p.type === "web");
 
 export default function WebProjectsPage() {
   return (
@@ -39,10 +38,21 @@ export default function WebProjectsPage() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Card className="h-full">
-                <div className="h-48 bg-muted flex items-center justify-center">
-                  <span className="text-muted-foreground">
-                    Project Screenshot / Architecture Diagram
-                  </span>
+                <div className="relative h-48 bg-muted overflow-hidden">
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="text-muted-foreground text-center px-4">
+                        Project Screenshot
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <CardHeader>
                   <CardTitle className="text-2xl">{project.title}</CardTitle>
@@ -67,34 +77,6 @@ export default function WebProjectsPage() {
                         <li key={item}>• {item}</li>
                       ))}
                     </ul>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Architecture</h3>
-                    <p className="text-sm font-mono bg-muted p-2 rounded">
-                      {project.architecture}
-                    </p>
-                  </div>
-                  {project.sampleSummary && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Sample Summary</h3>
-                      <p className="text-sm text-muted-foreground bg-muted p-3 rounded">
-                        {project.sampleSummary}
-                      </p>
-                    </div>
-                  )}
-                  <div className="flex gap-2 pt-4">
-                    <Button variant="outline" size="sm" asChild>
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-4 w-4" />
-                        Code Repo
-                      </a>
-                    </Button>
-                    <Button variant="outline" size="sm" asChild>
-                      <a href="#">
-                        <Play className="mr-2 h-4 w-4" />
-                        Demo Video
-                      </a>
-                    </Button>
                   </div>
                 </CardContent>
               </Card>

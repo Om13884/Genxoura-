@@ -1,17 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { HeroBackground } from "@/components/hero-background";
-import { services } from "../page";
+import { servicesData as services } from "../services-data";
 
 const apiServiceIds = [
   "email-sheets",
-  "api-sheets",
-  "form-sheet-email",
-  "ai-summarizer",
+  "whatsapp-automation",
+  "crm-setup",
+  "feedback-form",
+  "invoice-automation",
+  "landing-funnel",
+  "webhooks-ai",
 ];
 const apiServices = services.filter(service => apiServiceIds.includes(service.id));
 
@@ -46,10 +50,21 @@ export default function ApiServicesPage() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Card className="h-full">
-                <div className="h-48 bg-muted flex items-center justify-center">
-                  <span className="text-muted-foreground">
-                    Service Screenshot / Architecture Diagram
-                  </span>
+                <div className="relative h-48 bg-muted overflow-hidden">
+                  {service.image ? (
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="text-muted-foreground text-center px-4">
+                        Service Screenshot
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <CardHeader>
                   <CardTitle className="text-2xl">{service.title}</CardTitle>

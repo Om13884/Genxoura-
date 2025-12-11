@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,49 +23,85 @@ import { useToast } from "@/components/ui/use-toast"
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().regex(/^[\d\s\-\+\(\)]+$/, "Please enter a valid phone number").min(7, "Phone number must be at least 7 characters"),
   company: z.string().optional(),
   services: z.array(z.string()).min(1, "Please select at least one service"),
   description: z.string().min(10, "Please provide more details"),
+  budgetRange: z.string().optional(),
+  timeline: z.string().optional(),
+  source: z.string().optional(),
 })
 
 type ContactFormValues = z.infer<typeof contactFormSchema>
 
 const services = [
-  "Email → Google Sheets Logging",
-  "API Polling → Sheets",
-  "Form → Sheet → Email Alert",
-  "AI Summarization",
-  "Website Development",
-  "Portfolio Creation",
+  "Email Automation",
+  "WhatsApp Automation",
+  "CRM Setup",
+  "Landing Page + Funnel",
+  "Custom n8n Workflow",
+  "Other",
+]
+
+const budgetRanges = [
+  "₹10k – ₹25k",
+  "₹25k – ₹50k",
+  "₹50k – ₹1L",
+  "Above ₹1L",
+  "Not sure yet",
+]
+
+const timelines = [
+  "Within 1 week",
+  "Within 2–3 weeks",
+  "Within 1–2 months",
+  "No strict deadline",
+]
+
+const sources = [
+  "YouTube",
+  "LinkedIn",
+  "Instagram",
+  "Referral",
+  "Other",
 ]
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const { toast } = useToast()
+  const router = useRouter() // ✅ यहीं होना चाहिए
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
       company: "",
       services: [],
       description: "",
+      budgetRange: "",
+      timeline: "",
+      source: "",
     },
   })
 
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true)
     try {
-      // Send to Next.js API route (which proxies to n8n - no CORS issues)
+      // leadId optional है – future में काम आएगा
+      const leadId = crypto.randomUUID()
+
+      const payload = {
+        ...data,
+        formId: "lead_intake_v1",
+        leadId,
+      }
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
 
       const result = await response.json()
@@ -73,24 +110,35 @@ export function ContactForm() {
         throw new Error(result.message || "Failed to send message")
       }
 
-      // Log for development
-      console.log("Contact form submission:", data)
+      console.log("Contact form submission (Lead Intake):", payload)
 
       toast({
-        title: "Message sent!",
-        description: result.warning 
-          ? `${result.message}. ${result.warning}`
-          : "We'll get back to you within 24 hours.",
+        title: "Details submitted!",
+        description:
+          result.warning ??
+          "Next step: choose your plan & confirm details.",
       })
 
-      form.reset()
+      // 👉 यही main चीज़: pricing page पर redirect
+      const primaryService = data.services[0]
+
+      router.push(
+        `/pricing?name=${encodeURIComponent(
+          data.name
+        )}&email=${encodeURIComponent(
+          data.email
+        )}&service=${encodeURIComponent(
+          primaryService
+        )}&leadId=${encodeURIComponent(leadId)}`
+      )
     } catch (error) {
       console.error("Contact form error:", error)
       toast({
         title: "Error",
-        description: error instanceof Error 
-          ? error.message 
-          : "Failed to send message. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -115,28 +163,12 @@ export function ContactForm() {
           )}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number *</Label>
-          <Input
-            id="phone"
-            type="tel"
-            {...form.register("phone")}
-            placeholder="+1 (555) 123-4567"
-          />
-          {form.formState.errors.phone && (
-            <p className="text-sm text-destructive">
-              {form.formState.errors.phone.message}
-            </p>
-          )}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-2">
           <Label htmlFor="email">Email *</Label>
           <Input
             id="email"
             type="email"
             {...form.register("email")}
-            placeholder="john@example.com"
+            placeholder="you@company.com"
           />
           {form.formState.errors.email && (
             <p className="text-sm text-destructive">
@@ -144,15 +176,22 @@ export function ContactForm() {
             </p>
           )}
         </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="company">Company (optional)</Label>
           <Input
             id="company"
             {...form.register("company")}
-            placeholder="Acme Inc."
+            placeholder="Your brand / company"
           />
         </div>
+        <div />
       </div>
+
+      
+
       <div className="space-y-2">
         <Label htmlFor="services">Services Required *</Label>
         <Select
@@ -205,12 +244,13 @@ export function ContactForm() {
           </p>
         )}
       </div>
+
       <div className="space-y-2">
         <Label htmlFor="description">Project Description *</Label>
         <Textarea
           id="description"
           {...form.register("description")}
-          placeholder="Tell us about your automation needs..."
+          placeholder="Briefly describe what you want to automate / build..."
           rows={4}
         />
         {form.formState.errors.description && (
@@ -219,11 +259,72 @@ export function ContactForm() {
           </p>
         )}
       </div>
-      <Button type="submit" variant="gradient" className="w-full" disabled={isSubmitting}>
-        {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Send Message
+
+      <div className="grid grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <Label>Budget (optional)</Label>
+          <Select
+            onValueChange={(value) => form.setValue("budgetRange", value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select budget" />
+            </SelectTrigger>
+            <SelectContent>
+              {budgetRanges.map((range) => (
+                <SelectItem key={range} value={range}>
+                  {range}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Timeline (optional)</Label>
+          <Select
+            onValueChange={(value) => form.setValue("timeline", value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select timeline" />
+            </SelectTrigger>
+            <SelectContent>
+              {timelines.map((t) => (
+                <SelectItem key={t} value={t}>
+                  {t}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label>How did you find me? (optional)</Label>
+          <Select onValueChange={(value) => form.setValue("source", value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select source" />
+            </SelectTrigger>
+            <SelectContent>
+              {sources.map((s) => (
+                <SelectItem key={s} value={s}>
+                  {s}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Button
+        type="submit"
+        variant="gradient"
+        className="w-full"
+        disabled={isSubmitting}
+      >
+        {isSubmitting && (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        )}
+        Submit Details
       </Button>
     </form>
   )
 }
-

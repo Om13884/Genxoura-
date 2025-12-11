@@ -76,13 +76,7 @@ export function Footer() {
             <h3 className="text-sm font-semibold mb-4">Contact</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <a
-                  href="tel:+919972734513"
-                  className="hover:text-primary transition-colors"
-                >
-                  +91 9972734513
-                </a>
+                
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4" />
@@ -159,7 +153,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border">
           <p className="text-sm text-center text-muted-foreground">
-            © {currentYear} GenXora. Built with care. Contact: +91 9972734513 |{" "}
+            © {currentYear} GenXora. Built with care. |{" "}
             <a
               href="mailto:genxora11@gmail.com"
               className="hover:text-primary transition-colors"

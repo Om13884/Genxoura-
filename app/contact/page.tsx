@@ -72,20 +72,7 @@ export default function ContactPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Phone className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Phone</p>
-                    <a
-                      href="tel:+919972734513"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      +91 9972734513
-                    </a>
-                  </div>
-                </div>
+               
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                     <Mail className="h-6 w-6 text-primary" />

@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
-import { sendToN8NWebhook, N8N_WEBHOOK_ENDPOINTS } from "@/lib/integrations/n8n"
+import { sendToN8NWebhook } from "@/lib/integrations/n8n"
 
 export async function POST(request: NextRequest) {
   try {
+    console.log("[contact] === NEW REQUEST ===")
     const body = await request.json()
+    console.log("[contact] Body received:", { name: body.name, email: body.email })
 
-    const webhookBase = process.env.NEXT_PUBLIC_N8N_WEBHOOK_BASE
+    // Use server-side env var for contact webhook
+    const webhookUrl = process.env.N8N_CONTACT_WEBHOOK
+    console.log("[contact] N8N_CONTACT_WEBHOOK env var:", webhookUrl ? "SET" : "NOT SET")
 
-    if (!webhookBase) {
-      console.log("Contact form submission (no webhook configured):", body)
+    if (!webhookUrl) {
+      console.log("[contact] Webhook not configured, returning success anyway")
       return NextResponse.json(
         { success: true, message: "Form submitted (webhook not configured)" },
         { status: 200 }
@@ -16,20 +20,20 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      await sendToN8NWebhook(N8N_WEBHOOK_ENDPOINTS.contact, {
+      console.log("[contact] Attempting to send to n8n...")
+      await sendToN8NWebhook(webhookUrl, {
         ...body,
         timestamp: new Date().toISOString(),
+        formId: "contact_lead_intake",
       })
 
+      console.log("[contact] ✓ Successfully sent to n8n")
       return NextResponse.json(
         { success: true, message: "Form submitted successfully" },
         { status: 200 }
       )
     } catch (err) {
-      // Log detailed error server-side for debugging
-      console.error("n8n webhook delivery error:", err)
-
-      // Keep UX friendly: confirm receipt but warn about delivery
+      console.error("[contact] ✗ n8n webhook error:", err instanceof Error ? err.message : err)
       return NextResponse.json(
         {
           success: true,
@@ -40,7 +44,7 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error("Contact form API error:", error)
+    console.error("[contact] ✗ API error:", error)
     return NextResponse.json(
       {
         success: true,
